@@ -1,0 +1,29 @@
+<script>
+  (function() {
+    'use strict';
+
+
+    Polymer.CommonUtilBehavior = {
+      __jsonPrint: function(obj){
+        console.log(obj);
+
+        return JSON.stringify(obj);
+      }
+    };
+
+
+    Polymer.CommonAppBehavior = {
+      myFn: function(obj){
+        console.log(obj);
+      }
+    };
+
+
+    Polymer.CommonBehavior = [
+      Polymer.CommonUtilBehavior,
+      Polymer.CommonAppBehavior
+    ];
+
+
+  })();
+</script>
