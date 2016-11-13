@@ -89,9 +89,6 @@
                 </paper-button>
 
 
-
-                <div class="output"></div>
-
             </form>
 
 
@@ -153,14 +150,7 @@
 
                 // WAY-2:: event.detail
                 var formValues = event.detail;
-
-
-                //Print: Form Values
                 console.log(formValues);
-
-                //Print: Form Values in html
-                var output = Polymer.dom(this.root).querySelector('.output');
-                output.innerHTML = JSON.stringify(formValues);
 
 
                 this.studentData = formValues;
