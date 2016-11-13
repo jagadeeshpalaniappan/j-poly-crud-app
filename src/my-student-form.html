@@ -40,21 +40,21 @@
         <app-route
                 route="{{route}}"
                 pattern="/:studentId"
-                data="{{routeData}}"
+                data="{{studentRouteData}}"
                 tail="{{subroute}}"></app-route>
 
         <!-- Save / Update /Delete (particular note --by editableNoteId)-->
         <firebase-document
                 id="document"
                 app-name="jcrud"
-                path="{{_getStudentsFbPath(user, routeData)}}"
+                path="{{_getStudentsFbPath(user, studentRouteData)}}"
                 data="{{studentFbData}}">
         </firebase-document>
 
 
         <p>{{__jsonPrint(studentFbData)}}</p>
         <p>{{__jsonPrint(studentData)}}</p>
-        <p>{{_getStudentsFbPath(user, routeData)}}</p>
+        <p>{{_getStudentsFbPath(user, studentRouteData)}}</p>
 
 
         <div class="card">
@@ -62,19 +62,20 @@
 
             <p>user: {{user}}</p>
             <p>{{studentData.name}}</p>
-            <p>{{routeData.studentId}}</p>
+            <p>{{studentRouteData.studentId}}</p>
 
             <p>{{__jsonPrint(route)}}</p>
-            <p>{{__jsonPrint(routeData)}}</p>
+            <p>{{__jsonPrint(studentRouteData)}}</p>
+
 
             <form is="iron-form" id="eventsDemo">
 
 
-                <paper-input name="name" label="Name" value="{{studentData.name}}" required auto-validate></paper-input>
+                <paper-input name="name" label="Name" value="{{studentData.name}}" required></paper-input>
 
-                <paper-input name="age" label="Age" value="{{studentData.age}}" required auto-validate></paper-input>
+                <paper-input name="age" label="Age" value="{{studentData.age}}" required></paper-input>
 
-                <paper-input name="mobile" label="Mobile" value="{{studentData.mobile}}" required auto-validate></paper-input>
+                <paper-input name="mobile" label="Mobile" value="{{studentData.mobile}}" required></paper-input>
 
 
 
@@ -113,7 +114,6 @@
                 studentData : {
                     type: Object,
                     notify: true,
-                    observer: "_studentDataChanged",
                     value: function(){
                         return {};
                     }
@@ -122,9 +122,9 @@
             observers: [
                 '_studentFbDataChanged(studentFbData)'
             ],
-            _getStudentsFbPath: function (user, routeData) {
-                if(user && routeData && routeData.studentId){
-                    var path = '/students/' + user.uid +'/'+ routeData.studentId;
+            _getStudentsFbPath: function (user, studentRouteData) {
+                if(user && studentRouteData && studentRouteData.studentId){
+                    var path = '/students/' + user.uid +'/'+ studentRouteData.studentId;
                     return path;
                 }
                 return "";
@@ -135,9 +135,6 @@
             },
             ready: function () {
 
-                //this.studentData = {};
-                //this.studentData.name= "aaaaaaaaaa";
-
             },
             _change: function (event) {
                 // Validate the entire form to see if we should enable the `Submit` button.
@@ -146,6 +143,7 @@
             _formSubmitted: function (event) {
 
                 console.log("Form Submitted :: iron-form-submit");
+
 
                 var noteElement = Polymer.dom(event).localTarget;
 
@@ -179,7 +177,7 @@
                 var studentsFbPath = '/students/' + this.user.uid;
 
 
-                if(this.routeData.studentId){
+                if(this.studentRouteData.studentId){
                     console.log("Edit");
 
                     this.studentFbData = this.studentData;
@@ -230,6 +228,16 @@
 
                 console.log("_submitBtnClicked");
 
+
+                if(this.$.eventsDemo.validate()){
+                    console.log("VALID FORM");
+                }else{
+
+                    console.log("INVALID FORM");
+
+                }
+
+
                 //Iron Form (Submit)
                 // fires:: 'iron-form-submit' event, so listener: '_formSubmitted' will get called
                 this.$.eventsDemo.submit();
@@ -240,14 +248,6 @@
                 var form = Polymer.dom(event).localTarget.parentElement;
                 form.reset();
                 form.querySelector('.output').innerHTML = '';
-            },
-
-            _studentDataChanged: function(newStudentData){
-
-                console.log(newStudentData);
-
-                //this.student.name = newStudentData.name;
-
             },
 
             _studentFbDataChanged: function (studentFbData, oldStudentId) {
