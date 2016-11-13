@@ -43,6 +43,15 @@
         </app-indexeddb-mirror>
 
 
+        <firebase-document
+                id="document"
+                app-name="jcrud"
+                path="{{studentFbPath}}"
+                data="{{studentFbData}}">
+        </firebase-document>
+
+
+
         <!-- List :: All Students -->
 
         <template is="dom-repeat" items="[[persistedStudentRecords]]" as="student" id="studentListId">
@@ -55,6 +64,7 @@
                 <p>[[student.$key]]</p>
 
                 <p> <a href="/student/edit/[[student.$key]]"> Edit </a> </p>
+                <p> <button on-tap="deleteStudentRecord"> Delete </button> </p>
             </div>
 
         </template>
@@ -66,6 +76,21 @@
     <script>
         Polymer({
             is: 'my-student-list',
+
+            deleteStudentRecord: function(e){
+
+                var studentRecord = e.model.student;
+
+                console.log(studentRecord);
+
+                this.studentFbPath = '/students/'+ this.user.uid +'/'+studentRecord.$key;
+
+                console.log(this.studentFbPath);
+
+                this.$.document.destroy();
+
+
+            }
 
 
         });
