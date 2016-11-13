@@ -36,8 +36,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-        <a href="/student/create">Create</a>
-
 
         <!-- VIEW :: -->
         <iron-pages
@@ -46,7 +44,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 fallback-selection="list"
                 role="main">
 
-            <my-student-list name="list" route="{{subroute}}"
+            <my-student-list name="list"
+                             proute="{{route}}"
+                             route="{{subroute}}"
                              user="{{user}}"></my-student-list>
 
 

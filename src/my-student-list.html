@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 
 
 <link rel="import" href="shared-styles.html">
@@ -15,6 +16,12 @@
         </style>
 
         <style>
+
+            paper-fab {
+                position: fixed;
+                bottom: 1em;
+                right: 1em;
+            }
 
 
         </style>
@@ -48,6 +55,22 @@
 
 
 
+
+
+
+
+        <!-- Create Student -->
+
+        <a href="/student/create">Create</a>
+        <paper-fab
+                icon="add"
+                on-tap="createStudent"
+                disabled="[[!online]]"
+                aria-label="Add note">
+        </paper-fab>
+
+
+
         <!-- List :: All Students -->
 
         <template is="dom-repeat" items="[[persistedStudentRecords]]" as="student" id="studentListId">
@@ -67,12 +90,18 @@
 
 
 
+
     </template>
 
     <script>
         Polymer({
             is: 'my-student-list',
 
+            createStudent: function(){
+
+                this.set("proute.path", "/create");
+
+            },
             deleteStudentRecord: function(e){
 
                 var studentRecord = e.model.student;
