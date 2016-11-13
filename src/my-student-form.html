@@ -1,0 +1,266 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner-lite.html">
+
+
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-student-form">
+    <template>
+        <style include="shared-styles">
+        </style>
+
+        <style>
+
+            form > paper-button {
+                width: 45%;
+                margin-top: 20px;
+            }
+
+            paper-spinner-lite {
+                width: 18px;
+                height: 18px;
+                margin-right: 20px;
+                --paper-spinner-stroke-width: 1px;
+            }
+
+            form > paper-button:not([disabled]) {
+                background: var(--paper-light-blue-500);
+                color: white;
+            }
+
+
+        </style>
+
+
+        <app-route
+                route="{{route}}"
+                pattern="/:studentId"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
+
+        <!-- Save / Update /Delete (particular note --by editableNoteId)-->
+        <firebase-document
+                id="document"
+                app-name="jcrud"
+                path="{{_getStudentsFbPath(user, routeData)}}"
+                data="{{studentFbData}}">
+        </firebase-document>
+
+
+        <p>{{__jsonPrint(studentFbData)}}</p>
+        <p>{{__jsonPrint(studentData)}}</p>
+        <p>{{_getStudentsFbPath(user, routeData)}}</p>
+
+
+        <div class="card">
+
+
+            <p>user: {{user}}</p>
+            <p>{{studentData.name}}</p>
+            <p>{{routeData.studentId}}</p>
+
+            <p>{{__jsonPrint(route)}}</p>
+            <p>{{__jsonPrint(routeData)}}</p>
+
+            <form is="iron-form" id="eventsDemo">
+
+
+                <paper-input name="name" label="Name" value="{{studentData.name}}" required auto-validate></paper-input>
+
+                <paper-input name="age" label="Age" value="{{studentData.age}}" required auto-validate></paper-input>
+
+                <paper-input name="mobile" label="Mobile" value="{{studentData.mobile}}" required auto-validate></paper-input>
+
+
+
+
+                <!--<paper-checkbox name="iagree" required>I agree</paper-checkbox>-->
+                <br>
+
+
+                <paper-button raised on-tap="_submitBtnClicked" id="eventsDemoSubmit">
+                    <paper-spinner-lite id="spinner"></paper-spinner-lite>
+                    Submit
+                </paper-button>
+
+
+                <paper-button raised on-tap="_reset">
+                    Reset
+                </paper-button>
+
+
+
+                <div class="output"></div>
+
+            </form>
+
+
+        </div>
+
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-student-form',
+            behaviors: [Polymer.CommonUtilBehavior],
+            properties: {
+                studentData : {
+                    type: Object,
+                    notify: true,
+                    observer: "_studentDataChanged",
+                    value: function(){
+                        return {};
+                    }
+                }
+            },
+            observers: [
+                '_studentFbDataChanged(studentFbData)'
+            ],
+            _getStudentsFbPath: function (user, routeData) {
+                if(user && routeData && routeData.studentId){
+                    var path = '/students/' + user.uid +'/'+ routeData.studentId;
+                    return path;
+                }
+                return "";
+            },
+            listeners: {
+                'eventsDemo.change': '_change',
+                'eventsDemo.iron-form-submit': '_formSubmitted'
+            },
+            ready: function () {
+
+                //this.studentData = {};
+                //this.studentData.name= "aaaaaaaaaa";
+
+            },
+            _change: function (event) {
+                // Validate the entire form to see if we should enable the `Submit` button.
+                //this.$.eventsDemoSubmit.disabled = !this.$.eventsDemo.validate();
+            },
+            _formSubmitted: function (event) {
+
+                console.log("Form Submitted :: iron-form-submit");
+
+                var noteElement = Polymer.dom(event).localTarget;
+
+                //Disable: Btn //Actvate
+                //this.$.spinner.active = true;
+                //this.$.eventsDemoSubmit.disabled = true;
+
+
+                //-------------------GET: FORM VALUES----------------------
+
+                // WAY-1:: Form Serialize
+                //var formValues = this.$.eventsDemo.serialize();
+
+                // WAY-2:: event.detail
+                var formValues = event.detail;
+
+
+                //Print: Form Values
+                console.log(formValues);
+
+                //Print: Form Values in html
+                var output = Polymer.dom(this.root).querySelector('.output');
+                output.innerHTML = JSON.stringify(formValues);
+
+
+                this.studentData = formValues;
+
+
+                //this.fire("student-form-submit");
+
+                var studentsFbPath = '/students/' + this.user.uid;
+
+
+                if(this.routeData.studentId){
+                    console.log("Edit");
+
+                    this.studentFbData = this.studentData;
+
+                    this.set("proute.path", "/student/list");
+
+                }else{
+
+                    console.log("Create");
+
+                    console.log(this.studentData);
+
+                    this.editableNoteId = null;
+
+                    this.studentFbData = this.studentData;
+
+                    console.log("Fb Path :" + studentsFbPath);
+
+
+
+                    return this.$.document.save(studentsFbPath).then(function () {
+                        this.$.document.reset();
+
+                        this.studentData = {};
+                        this.set("proute.path", "/student/list");
+
+                    }.bind(this));
+
+                }
+
+
+                /*
+                var spinner = this.$.spinner;
+                var eventsDemoSubmit = this.$.eventsDemoSubmit;
+
+                // Simulate a slow server response.
+                setTimeout(function () {
+
+                    //After AJAX response
+                    spinner.active = false;
+                    eventsDemoSubmit.disabled = false;
+
+                }, 2000);
+
+                */
+            },
+            _submitBtnClicked: function (event) {
+
+                console.log("_submitBtnClicked");
+
+                //Iron Form (Submit)
+                // fires:: 'iron-form-submit' event, so listener: '_formSubmitted' will get called
+                this.$.eventsDemo.submit();
+
+            },
+            _reset: function (event) {
+
+                var form = Polymer.dom(event).localTarget.parentElement;
+                form.reset();
+                form.querySelector('.output').innerHTML = '';
+            },
+
+            _studentDataChanged: function(newStudentData){
+
+                console.log(newStudentData);
+
+                //this.student.name = newStudentData.name;
+
+            },
+
+            _studentFbDataChanged: function (studentFbData, oldStudentId) {
+
+                console.log("_studentFbDataChanged");
+                console.log(studentFbData);
+
+
+                this.studentData = studentFbData;
+
+
+
+            }
+        });
+    </script>
+</dom-module>
