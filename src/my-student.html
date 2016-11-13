@@ -28,38 +28,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </style>
 
 
-        <br/>
-        <br/>
-
-
-        <!-- Save / Update /Delete (particular note --by editableNoteId)-->
-        <!--
-        <firebase-document
-                id="document"
-                app-name="jcrud"
-                path="[[editableNoteId]]"
-                data="{{studentFbData}}">
-        </firebase-document>
-
--->
-
-
         <app-route
                 route="{{route}}"
                 pattern="/:page"
                 data="{{routeData}}"
                 tail="{{subroute}}"></app-route>
 
-
-
-
-
-        <p>route: {{route}}</p>
-        <p>routeData.page: {{routeData.page}}</p>
-        <p>routeData.page: {{routeData.sid}}</p>
-        <p>subroute: {{subroute.path}}</p>
-
-        <p>uid :: {{user.uid}}</p>
 
 
         <a href="/student/create">Create</a>
