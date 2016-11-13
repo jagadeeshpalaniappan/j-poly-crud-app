@@ -68,7 +68,7 @@
             <p>{{__jsonPrint(studentRouteData)}}</p>
 
 
-            <form is="iron-form" id="eventsDemo">
+            <form is="iron-form" id="studentForm">
 
 
                 <paper-input name="name" label="Name" value="{{studentData.name}}" required></paper-input>
@@ -130,15 +130,15 @@
                 return "";
             },
             listeners: {
-                'eventsDemo.change': '_change',
-                'eventsDemo.iron-form-submit': '_formSubmitted'
+                'studentForm.change': '_change',
+                'studentForm.iron-form-submit': '_formSubmitted'
             },
             ready: function () {
 
             },
             _change: function (event) {
                 // Validate the entire form to see if we should enable the `Submit` button.
-                //this.$.eventsDemoSubmit.disabled = !this.$.eventsDemo.validate();
+                //this.$.eventsDemoSubmit.disabled = !this.$.studentForm.validate();
             },
             _formSubmitted: function (event) {
 
@@ -155,7 +155,7 @@
                 //-------------------GET: FORM VALUES----------------------
 
                 // WAY-1:: Form Serialize
-                //var formValues = this.$.eventsDemo.serialize();
+                //var formValues = this.$.studentForm.serialize();
 
                 // WAY-2:: event.detail
                 var formValues = event.detail;
@@ -229,7 +229,7 @@
                 console.log("_submitBtnClicked");
 
 
-                if(this.$.eventsDemo.validate()){
+                if(this.$.studentForm.validate()){
                     console.log("VALID FORM");
                 }else{
 
@@ -240,7 +240,7 @@
 
                 //Iron Form (Submit)
                 // fires:: 'iron-form-submit' event, so listener: '_formSubmitted' will get called
-                this.$.eventsDemo.submit();
+                this.$.studentForm.submit();
 
             },
             _reset: function (event) {
