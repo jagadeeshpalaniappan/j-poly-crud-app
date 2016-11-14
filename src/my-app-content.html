@@ -134,6 +134,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     Polymer({
       is: 'my-app-content',
+      behaviors: [Polymer.UserBehavior],
 
       properties: {
         appRoutePage: {
@@ -172,16 +173,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _showPage404: function() {
         this.appRoutePage = 'view404';
-      },
-
-      _signOut: function(){
-        this.fire('iron-signal', {name: 'signoutsignal'});
-      },
-      _handleUserSignal: function(e){
-
-        this.user = e.detail;
-        console.log(this.user);
-
       }
     });
   </script>
