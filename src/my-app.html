@@ -54,7 +54,7 @@
 
 
         <!-- APP UI -->
-        <my-app-content on-sign-out="_signOut"></my-app-content>
+        <my-app-content></my-app-content>
 
 
 
@@ -73,8 +73,9 @@
             },
             _userObjChanged: function(user){
 
-                this.fire('iron-signal', {name: 'usersignal', data: user});
-
+                if(user){
+                    this.fire('iron-signal', {name: 'usersignal', data: user});
+                }
             }
         });
     </script>
