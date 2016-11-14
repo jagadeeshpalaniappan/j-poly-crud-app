@@ -13,6 +13,9 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+<link rel="import" href="../bower_components/iron-meta/iron-meta.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
+
 
 <link rel="import" href="common-behavior.html">
 
@@ -29,8 +32,16 @@
 
         </style>
 
-        <!-- Firebase App -->
 
+        <!-- Global: Static Variable -->
+        <iron-meta key="APP_TITLE" value="J-CRUD"></iron-meta>
+
+        <!-- '_handleUserSignOut' will be triggered whenever ---this.fire('iron-signal', {name: 'signoutsignal'}); called -->
+        <iron-signals on-iron-signal-signoutsignal="_handleUserSignOut"></iron-signals>
+
+
+
+        <!-- Firebase App -->
         <firebase-app
                 name="jcrud"
                 api-key="AIzaSyBiZ6c-Y85htf9GSgpkvK6CPi4vQWprw1o"
@@ -42,8 +53,8 @@
 
 
 
-
-        <my-app-content user="{{user}}" on-sign-out="_signOut"></my-app-content>
+        <!-- APP UI -->
+        <my-app-content on-sign-out="_signOut"></my-app-content>
 
 
 
@@ -53,11 +64,17 @@
         Polymer({
             is: 'my-app',
             behaviors: [Polymer.CommonUtilBehavior],
+            observers: ['_userObjChanged(user)'],
             properties: {},
-            _signOut: function(){
+            _handleUserSignOut: function(){
                 //console.log("_signOut");
 
                 this.$.myAppAuthId.signOut();
+            },
+            _userObjChanged: function(user){
+
+                this.fire('iron-signal', {name: 'usersignal', data: user});
+
             }
         });
     </script>

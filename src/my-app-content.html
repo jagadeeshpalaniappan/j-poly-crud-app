@@ -74,6 +74,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+    <iron-signals on-iron-signal-usersignal="_handleUserSignal"></iron-signals>
+
+
+
     <!-- APP-MAIN: -->
     <app-drawer-layout fullbleed>
 
@@ -171,7 +175,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _signOut: function(){
-        this.fire('sign-out');
+        this.fire('iron-signal', {name: 'signoutsignal'});
+      },
+      _handleUserSignal: function(e){
+
+        this.user = e.detail;
+        console.log(this.user);
+
       }
     });
   </script>
