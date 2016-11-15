@@ -61,7 +61,7 @@
 
         <!-- Create Student -->
 
-        <a href="/student/create">Create</a>
+        <a href="/#/student/create">Create</a>
         <paper-fab
                 icon="add"
                 on-tap="createStudent"
@@ -82,7 +82,7 @@
 
                 <p>[[student.$key]]</p>
 
-                <p> <a href="/student/edit/[[student.$key]]"> Edit </a> </p>
+                <p> <a href="/#/student/edit/[[student.$key]]"> Edit </a> </p>
                 <p> <button on-tap="deleteStudentRecord"> Delete </button> </p>
             </div>
 
@@ -106,11 +106,11 @@
 
                 var studentRecord = e.model.student;
 
-                console.log(studentRecord);
+                //console.log(studentRecord);
 
                 this.studentFbPath = '/students/'+ this.user.uid +'/'+studentRecord.$key;
 
-                console.log(this.studentFbPath);
+                //console.log(this.studentFbPath);
 
                 this.$.document.destroy();
 

@@ -36,6 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+        <!--<p>routeData.page: {{routeData.page}}</p>-->
+        <!--<p>subroute: {{subroute.path}}</p>-->
 
         <!-- VIEW :: -->
         <iron-pages
@@ -54,12 +56,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <my-student-form name="create"
                              user="{{user}}"
                              proute="{{route}}"
+                             proutedata="{{routeData}}"
                              student-data="{{studentData}}"
                              on-student-form-submit="_studentFormSubmitted"></my-student-form>
 
 
             <my-student-form name="edit"
                              proute="{{route}}"
+                             proutedata="{{routeData}}"
                              route="{{subroute}}"
                              user="{{user}}"
                              student-id="[[routeData.sid]]" student-data="{{studentData}}"

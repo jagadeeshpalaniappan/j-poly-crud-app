@@ -150,7 +150,7 @@
 
                 // WAY-2:: event.detail
                 var formValues = event.detail;
-                console.log(formValues);
+                //console.log(formValues);
 
 
                 this.studentData = formValues;
@@ -162,23 +162,24 @@
 
 
                 if(this.studentRouteData.studentId){
-                    console.log("Edit");
+                    //console.log("Edit");
 
                     this.studentFbData = this.studentData;
 
-                    this.set("proute.path", "/student/list");
+                    //this.set("proute.path", "/student/list");
+                    this.set("proutedata.page", "list");
 
                 }else{
 
-                    console.log("Create");
+                    //console.log("Create");
 
-                    console.log(this.studentData);
+                    //console.log(this.studentData);
 
                     this.editableNoteId = null;
 
                     this.studentFbData = this.studentData;
 
-                    console.log("Fb Path :" + studentsFbPath);
+                    //console.log("Fb Path :" + studentsFbPath);
 
 
 
@@ -192,39 +193,22 @@
 
                 }
 
-
-                /*
-                var spinner = this.$.spinner;
-                var eventsDemoSubmit = this.$.eventsDemoSubmit;
-
-                // Simulate a slow server response.
-                setTimeout(function () {
-
-                    //After AJAX response
-                    spinner.active = false;
-                    eventsDemoSubmit.disabled = false;
-
-                }, 2000);
-
-                */
             },
             _submitBtnClicked: function (event) {
 
-                console.log("_submitBtnClicked");
+                //console.log("_submitBtnClicked");
 
 
                 if(this.$.studentForm.validate()){
-                    console.log("VALID FORM");
+                    //console.log("VALID FORM");
+
+                    //Iron Form (Submit)
+                    // fires:: 'iron-form-submit' event, so listener: '_formSubmitted' will get called
+                    this.$.studentForm.submit();
+
                 }else{
-
-                    console.log("INVALID FORM");
-
+                    //console.log("INVALID FORM");
                 }
-
-
-                //Iron Form (Submit)
-                // fires:: 'iron-form-submit' event, so listener: '_formSubmitted' will get called
-                this.$.studentForm.submit();
 
             },
             _reset: function (event) {
@@ -236,8 +220,8 @@
 
             _studentFbDataChanged: function (studentFbData, oldStudentId) {
 
-                console.log("_studentFbDataChanged");
-                console.log(studentFbData);
+                //console.log("_studentFbDataChanged");
+                //console.log(studentFbData);
 
 
                 this.studentData = studentFbData;
