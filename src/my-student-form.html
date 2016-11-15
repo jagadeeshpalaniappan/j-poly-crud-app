@@ -166,8 +166,11 @@
 
                     this.studentFbData = this.studentData;
 
-                    //this.set("proute.path", "/student/list");
-                    this.set("proutedata.page", "list");
+                    this.studentData = {};
+                    this.$.document.reset();
+
+                    this.set("proute.path", "/list");
+                    //this.set("proutedata.page", "list");
 
                 }else{
 
@@ -187,7 +190,7 @@
                         this.$.document.reset();
 
                         this.studentData = {};
-                        this.set("proute.path", "/student/list");
+                        this.set("proute.path", "/list");
 
                     }.bind(this));
 
