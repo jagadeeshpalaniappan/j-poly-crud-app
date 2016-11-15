@@ -43,12 +43,15 @@
                 data="{{studentRouteData}}"
                 tail="{{subroute}}"></app-route>
 
+
+
         <!-- Save / Update /Delete (particular note --by editableNoteId)-->
         <firebase-document
                 id="document"
                 app-name="jcrud"
                 path="{{_getStudentsFbPath(user, studentRouteData)}}"
-                data="{{studentFbData}}">
+                data="{{studentFbData}}"
+                transactions-complete="{{_transactionsCompleted}}">
         </firebase-document>
 
 <!--
@@ -61,6 +64,7 @@
 
         <div class="card">
 
+            <h3>{{_createOrUpdate()}}</h3>
 
             <form is="iron-form" id="studentForm">
 
@@ -218,17 +222,29 @@
 
                 var form = Polymer.dom(event).localTarget.parentElement;
                 form.reset();
-                form.querySelector('.output').innerHTML = '';
             },
 
             _studentFbDataChanged: function (studentFbData, oldStudentId) {
 
-                //console.log("_studentFbDataChanged");
-                //console.log(studentFbData);
+                console.log("_studentFbDataChanged");
+                console.log(studentFbData);
 
 
                 this.studentData = studentFbData;
 
+            },
+            _createOrUpdate: function(){
+
+                if(this.studentRouteData && this.studentRouteData.studentId){
+
+                    return "Edit";
+                }else{
+
+                    //RESET (working):
+                    this.studentData = {};
+                    return "Create";
+
+                }
 
 
             }

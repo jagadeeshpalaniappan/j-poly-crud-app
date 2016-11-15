@@ -55,18 +55,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <my-student-form name="create"
                              user="{{user}}"
-                             proute="{{route}}"
-                             proutedata="{{routeData}}"
-                             on-student-form-submit="_studentFormSubmitted"></my-student-form>
+                             proute="{{route}}"></my-student-form>
 
 
             <my-student-form name="edit"
-                             proute="{{route}}"
-                             proutedata="{{routeData}}"
                              route="{{subroute}}"
-                             user="{{user}}"
-                             student-id="[[routeData.sid]]"
-                             on-student-form-submit="_studentFormSubmitted"></my-student-form>
+                             proute="{{route}}"
+                             user="{{user}}"></my-student-form>
 
 
 
